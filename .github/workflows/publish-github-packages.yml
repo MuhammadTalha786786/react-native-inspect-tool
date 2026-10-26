@@ -19,8 +19,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@muhammadtalha786786'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build TypeScript
+        run: npm run build
 
       - name: Prepare package.json for GitHub Packages
         run: |
@@ -32,13 +36,9 @@ jobs:
             fs.writeFileSync("./package.json", JSON.stringify(pkg, null, 2) + "\n");
           '
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build TypeScript
-        run: npm run build
-
       - name: Publish to GitHub Packages
-        run: npm publish
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+          npm publish --registry=https://npm.pkg.github.com
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
