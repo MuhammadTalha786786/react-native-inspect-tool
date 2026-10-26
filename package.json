@@ -1,0 +1,50 @@
+{
+  "name": "react-native-inspect-tool",
+  "version": "1.0.1",
+  "description": "In-app Chrome DevTools style inspector for React Native: Network API calls, Errors & Console, Memory Leaks & Performance.",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/index.d.ts",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
+  "files": [
+    "src",
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && tsc -p tsconfig.esm.json",
+    "clean": "rm -rf lib",
+    "prepublishOnly": "npm run build",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "react-native",
+    "devtools",
+    "inspector",
+    "network-logger",
+    "chrome-devtools",
+    "console",
+    "memory-leak",
+    "hermes",
+    "profiler",
+    "debugging"
+  ],
+  "author": "DevLens Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-native": ">=0.60.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "react": "^18.3.1",
+    "react-native": "^0.74.5",
+    "typescript": "^5.4.5"
+  }
+}
