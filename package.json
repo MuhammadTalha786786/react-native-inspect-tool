@@ -37,6 +37,14 @@
   ],
   "author": "DevLens Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuhammadTalha786786/react-native-inspect-tool.git"
+  },
+  "homepage": "https://github.com/MuhammadTalha786786/react-native-inspect-tool#readme",
+  "bugs": {
+    "url": "https://github.com/MuhammadTalha786786/react-native-inspect-tool/issues"
+  },
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-native": ">=0.60.0"
