@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({
       <View style={styles.topRow}>
         <View style={styles.brandContainer}>
           <Text style={styles.brandLogo}>⚡</Text>
-          <Text style={styles.brandTitle}>DevLens</Text>
+          <Text style={styles.brandTitle}>inspectToolRN</Text>
           <Text style={styles.brandSub}>INSPECTOR</Text>
         </View>
         <View style={styles.actions}>

@@ -211,7 +211,7 @@ export const InspectorOverlay: React.FC<InspectorOverlayProps> = ({ config }) =>
             />
 
             <View style={styles.tabContainer}>
-              <ErrorBoundary key={currentTab} fallbackTitle={`DevLens ${currentTab.toUpperCase()} Error`}>
+              <ErrorBoundary key={currentTab} fallbackTitle={`inspectToolRN ${currentTab.toUpperCase()} Error`}>
                 {currentTab === 'network' && <NetworkTab requests={requests} />}
                 {currentTab === 'console' && <ConsoleTab logs={logs} />}
                 {currentTab === 'memory' && (
@@ -278,6 +278,7 @@ export const DevLensProvider: React.FC<DevLensProviderProps> = ({ children, conf
 };
 
 export const InspectorProvider = DevLensProvider;
+export const InspectToolRNProvider = DevLensProvider;
 
 const styles = StyleSheet.create({
   anchorView: {

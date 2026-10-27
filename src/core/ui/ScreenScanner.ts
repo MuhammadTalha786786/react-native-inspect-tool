@@ -299,7 +299,7 @@ export class ScreenScannerClass {
     const name = this.getCleanComponentName(fiber);
 
     // If it's DevLensProvider wrapper, traverse its children directly (the app)
-    if (name === 'DevLensProvider' || name === 'InspectorProvider') {
+    if (name === 'DevLensProvider' || name === 'InspectorProvider' || name === 'InspectToolRNProvider') {
       if (fiber.child) {
         this.traverseFiberTree(fiber.child, elements, visited, depth, ancestors);
       }
@@ -318,7 +318,8 @@ export class ScreenScannerClass {
         name.includes('FloatingBubble') ||
         name === 'FiberAnchor') &&
       name !== 'DevLensProvider' &&
-      name !== 'InspectorProvider';
+      name !== 'InspectorProvider' &&
+      name !== 'InspectToolRNProvider';
 
     if (isDevLensInternal) {
       if (fiber.sibling) {

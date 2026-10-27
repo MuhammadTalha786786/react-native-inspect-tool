@@ -4,11 +4,12 @@ export {
   InspectorOverlayProps,
   DevLensProvider,
   InspectorProvider,
+  InspectToolRNProvider,
   DevLensProviderProps,
 } from './ui/InspectorOverlay';
 
 // Core Singleton & Interceptors
-export { DevLens } from './core/DevLensCore';
+export { DevLens, DevLens as InspectToolRN, DevLens as inspectToolRN } from './core/DevLensCore';
 export { NetworkStorage } from './core/network/NetworkStorage';
 export { networkInterceptor } from './core/network/NetworkInterceptor';
 export { ErrorStorage } from './core/error/ErrorStorage';

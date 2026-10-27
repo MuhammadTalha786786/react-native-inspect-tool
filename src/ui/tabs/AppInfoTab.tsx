@@ -27,7 +27,7 @@ export const AppInfoTab: React.FC<AppInfoTabProps> = ({ onClearAll }) => {
     fetch('https://jsonplaceholder.typicode.com/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: 'DevLens Test', body: 'Inspecting React Native!', userId: 1 }),
+      body: JSON.stringify({ title: 'inspectToolRN Test', body: 'Inspecting React Native!', userId: 1 }),
     }).catch(() => {});
   };
 
@@ -36,9 +36,9 @@ export const AppInfoTab: React.FC<AppInfoTabProps> = ({ onClearAll }) => {
   };
 
   const triggerTestLog = () => {
-    console.log('⚡ [DevLens Info]', 'Testing regular log message with data', { status: 'healthy', timestamp: Date.now() });
-    console.warn('⚠️ [DevLens Warning]', 'Testing warning log message');
-    console.error('🛑 [DevLens Error]', new Error('Demonstration error stack trace for DevLens inspector'));
+    console.log('⚡ [inspectToolRN Info]', 'Testing regular log message with data', { status: 'healthy', timestamp: Date.now() });
+    console.warn('⚠️ [inspectToolRN Warning]', 'Testing warning log message');
+    console.error('🛑 [inspectToolRN Error]', new Error('Demonstration error stack trace for inspectToolRN inspector'));
   };
 
   const triggerTimerSimulation = () => {
@@ -84,8 +84,8 @@ export const AppInfoTab: React.FC<AppInfoTabProps> = ({ onClearAll }) => {
             </Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.key}>DevLens Version:</Text>
-            <Text style={styles.val}>1.0.0</Text>
+            <Text style={styles.key}>inspectToolRN Version:</Text>
+            <Text style={styles.val}>1.0.2</Text>
           </View>
         </View>
       </View>
@@ -94,7 +94,7 @@ export const AppInfoTab: React.FC<AppInfoTabProps> = ({ onClearAll }) => {
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Quick Test Actions</Text>
         <Text style={styles.cardDesc}>
-          Tap these actions to immediately test DevLens interception capabilities.
+          Tap these actions to immediately test inspectToolRN interception capabilities.
         </Text>
 
         <View style={styles.btnRow}>
@@ -124,7 +124,7 @@ export const AppInfoTab: React.FC<AppInfoTabProps> = ({ onClearAll }) => {
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Maintenance</Text>
         <TouchableOpacity onPress={onClearAll} style={styles.dangerBtn}>
-          <Text style={styles.dangerBtnText}>🗑️ Clear All DevLens Data</Text>
+          <Text style={styles.dangerBtnText}>🗑️ Clear All inspectToolRN Data</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

@@ -91,7 +91,7 @@ export default function App() {
       {/* Your regular app content */}
       <MainNavigator />
 
-      {/* DevLens Floating Bubble & DevTools Drawer */}
+      {/* inspectToolRN Floating Bubble & DevTools Drawer */}
       {__DEV__ && <InspectorOverlay />}
     </View>
   );
@@ -104,7 +104,7 @@ That's it! A draggable floating badge `⚡` will appear on screen. Tap it anytim
 
 ## ⚙️ Configuration Options
 
-You can customize DevLens behavior by passing props to `<InspectorOverlay>`:
+You can customize inspectToolRN behavior by passing props to `<InspectorOverlay>`:
 
 ```tsx
 <InspectorOverlay
@@ -133,16 +133,16 @@ You can customize DevLens behavior by passing props to `<InspectorOverlay>`:
 
 ## 🔧 Imperative API
 
-You can also control DevLens programmatically in your code:
+You can also control inspectToolRN programmatically in your code:
 
 ```ts
-import { DevLens, NetworkStorage, ErrorStorage } from 'react-native-inspect-tool';
+import { inspectToolRN, NetworkStorage, ErrorStorage } from 'react-native-inspect-tool';
 
 // Initialize manually (if not using <InspectorOverlay />)
-DevLens.init({ maxNetworkRequests: 300 });
+inspectToolRN.init({ maxNetworkRequests: 300 });
 
 // Clear all logged data
-DevLens.clearAll();
+inspectToolRN.clearAll();
 
 // Access stored requests
 const requests = NetworkStorage.getRequests();
@@ -159,20 +159,20 @@ const curl = NetworkStorage.toCurl(requests[0]);
 ## 📱 How It Works Under the Hood
 
 ### 1. Network Interception
-DevLens wraps `global.fetch` and `global.XMLHttpRequest`. When a request is triggered:
+inspectToolRN wraps `global.fetch` and `global.XMLHttpRequest`. When a request is triggered:
 - The request URL, headers, and body are captured into a bounded ring buffer.
 - Response streams are non-destructively cloned (`response.clone().text()`) so your application code receives unaltered streams.
 - Latencies and statuses are recorded when the request resolves or rejects.
 
 ### 2. Error Interception
-DevLens intercepts:
+inspectToolRN intercepts:
 - `console.error`, `console.warn`, `console.log`, `console.info` while forwarding calls to the original methods so terminal/Metro output remains intact.
 - `global.ErrorUtils.setGlobalHandler` to capture fatal/non-fatal exceptions with stack traces.
 - `global.onunhandledrejection` for unhandled Promise rejections.
 
 ### 3. Memory & Leak Detection
-- **Hermes**: DevLens inspects `global.HermesInternal.getInstrumentedStats()` every second to extract exact JS heap size and allocated bytes.
-- **Timer Tracking**: DevLens wraps `setInterval` and `clearInterval`, tracking the creation time and call stack of every active timer. If an interval exceeds 60 seconds with dozens of ticks without being cleared, DevLens triggers a **Potential Timer Leak** alert.
+- **Hermes**: inspectToolRN inspects `global.HermesInternal.getInstrumentedStats()` every second to extract exact JS heap size and allocated bytes.
+- **Timer Tracking**: inspectToolRN wraps `setInterval` and `clearInterval`, tracking the creation time and call stack of every active timer. If an interval exceeds 60 seconds with dozens of ticks without being cleared, inspectToolRN triggers a **Potential Timer Leak** alert.
 - **Heap Growth Analysis**: If heap memory increases monotonically over consecutive samples without garbage collection release, a **Continuous Memory Growth** alert is flagged.
 
 ---
