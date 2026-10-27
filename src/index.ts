@@ -28,7 +28,9 @@ export { BoxModelViewer } from './ui/components/BoxModelViewer';
 export { ColorSwatch } from './ui/components/ColorSwatch';
 export { ElementPickerOverlay } from './ui/components/ElementPickerOverlay';
 export { FiberAnchor } from './ui/components/FiberAnchor';
+export { ErrorBoundary } from './ui/components/ErrorBoundary';
 export { ElementsTab } from './ui/tabs/ElementsTab';
+export { isValidColor, sanitizeComponentStyle, safeFormatValue } from './core/ui/styleUtils';
 
 // Types
 export * from './types';

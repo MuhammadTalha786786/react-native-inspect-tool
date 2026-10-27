@@ -4,6 +4,8 @@ import {
   SafeAreaView,
   StyleSheet,
   View,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import {
   ActiveTimer,
@@ -30,6 +32,7 @@ import { ElementsTab } from './tabs/ElementsTab';
 import { AppInfoTab } from './tabs/AppInfoTab';
 import { ElementPickerOverlay } from './components/ElementPickerOverlay';
 import { FiberAnchor } from './components/FiberAnchor';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 export interface InspectorOverlayProps {
   config?: DevLensConfig;
@@ -193,6 +196,7 @@ export const InspectorOverlay: React.FC<InspectorOverlayProps> = ({ config }) =>
         transparent={false}
         onRequestClose={() => setIsOpen(false)}
       >
+        <StatusBar barStyle="light-content" backgroundColor={colors.bg} />
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.modalContent}>
             <Header
@@ -207,27 +211,29 @@ export const InspectorOverlay: React.FC<InspectorOverlayProps> = ({ config }) =>
             />
 
             <View style={styles.tabContainer}>
-              {currentTab === 'network' && <NetworkTab requests={requests} />}
-              {currentTab === 'console' && <ConsoleTab logs={logs} />}
-              {currentTab === 'memory' && (
-                <MemoryTab
-                  currentSample={currentSample}
-                  history={history}
-                  alerts={alerts}
-                  activeTimers={activeTimers}
-                  isHermes={isHermes}
-                  onClearAlerts={() => memoryMonitor.clearAlerts()}
-                />
-              )}
-              {currentTab === 'elements' && (
-                <ElementsTab
-                  inspectedElement={inspectedElement}
-                  initialMode={elementsInitialMode}
-                  onStartTouchInspect={handleStartTouchInspect}
-                  onSelectHierarchyIndex={handleSelectHierarchyIndex}
-                />
-              )}
-              {currentTab === 'info' && <AppInfoTab onClearAll={() => DevLens.clearAll()} />}
+              <ErrorBoundary key={currentTab} fallbackTitle={`DevLens ${currentTab.toUpperCase()} Error`}>
+                {currentTab === 'network' && <NetworkTab requests={requests} />}
+                {currentTab === 'console' && <ConsoleTab logs={logs} />}
+                {currentTab === 'memory' && (
+                  <MemoryTab
+                    currentSample={currentSample}
+                    history={history}
+                    alerts={alerts}
+                    activeTimers={activeTimers}
+                    isHermes={isHermes}
+                    onClearAlerts={() => memoryMonitor.clearAlerts()}
+                  />
+                )}
+                {currentTab === 'elements' && (
+                  <ElementsTab
+                    inspectedElement={inspectedElement}
+                    initialMode={elementsInitialMode}
+                    onStartTouchInspect={handleStartTouchInspect}
+                    onSelectHierarchyIndex={handleSelectHierarchyIndex}
+                  />
+                )}
+                {currentTab === 'info' && <AppInfoTab onClearAll={() => DevLens.clearAll()} />}
+              </ErrorBoundary>
             </View>
           </View>
         </SafeAreaView>
@@ -288,6 +294,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.bg,
+    paddingTop: Platform.OS === 'android' ? Math.max(StatusBar.currentHeight || 0, 24) : 0,
   },
   modalContent: {
     flex: 1,

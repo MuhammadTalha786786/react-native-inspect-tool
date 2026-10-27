@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import { NetworkRequest } from '../../types';
 import { NetworkStorage } from '../../core/network/NetworkStorage';
@@ -41,6 +43,7 @@ export const NetworkDetailModal: React.FC<NetworkDetailModalProps> = ({
 
   return (
     <Modal visible={visible} animationType="slide" transparent={false} onRequestClose={onClose}>
+      <StatusBar barStyle="light-content" backgroundColor={colors.bg} />
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
           {/* Header */}
@@ -195,6 +198,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.bg,
+    paddingTop: Platform.OS === 'android' ? Math.max(StatusBar.currentHeight || 0, 24) : 0,
   },
   container: {
     flex: 1,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '../theme';
 import { ElementColorInfo } from '../../types';
+import { isValidColor } from '../../core/ui/styleUtils';
 
 interface ColorSwatchProps {
   colorInfo: ElementColorInfo;
@@ -23,13 +24,17 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({ colorInfo }) => {
     tintColor: 'Tint',
   }[colorInfo.type] || colorInfo.type;
 
+  const validBg = isValidColor(colorInfo.value) && colorInfo.value !== 'transparent'
+    ? colorInfo.value
+    : 'transparent';
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={handleCopy}
       style={styles.container}
     >
-      <View style={[styles.previewBlock, { backgroundColor: colorInfo.value }]} />
+      <View style={[styles.previewBlock, { backgroundColor: validBg }]} />
       <View style={styles.textContainer}>
         <Text style={styles.labelText}>{readableType}</Text>
         <Text style={styles.valueText} selectable>

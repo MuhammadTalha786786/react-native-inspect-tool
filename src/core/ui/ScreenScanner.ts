@@ -7,6 +7,7 @@ import {
   ScreenColorPaletteItem,
   ScreenScanResult,
 } from '../../types';
+import { sanitizeComponentStyle } from './styleUtils';
 const NAMED_COLORS: Record<string, string> = {
   black: '#000000',
   white: '#ffffff',
@@ -339,7 +340,7 @@ export class ScreenScannerClass {
     const isCompositeComponent = fiber.tag === 0 || fiber.tag === 1;
 
     if (name && (category !== 'other' || isHostComponent || (isCompositeComponent && props.style))) {
-      const style = StyleSheet.flatten(props.style) || {};
+      const style = sanitizeComponentStyle(props.style);
       const colors = this.extractElementColors(style, props, currentAncestors);
       const functionality = this.extractFunctionality(props);
       const text = this.extractTextContent(fiber, props);
@@ -637,7 +638,7 @@ export class ScreenScannerClass {
       for (let i = ancestors.length - 2; i >= 0; i--) {
         const anc = ancestors[i];
         const ancProps = anc?.props || {};
-        const ancStyle = StyleSheet.flatten(ancProps.style) || {};
+        const ancStyle = sanitizeComponentStyle(ancProps.style);
         const ancColors = extractColors(ancStyle, ancProps);
 
         if (!hasBg) {

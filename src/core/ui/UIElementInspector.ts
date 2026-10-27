@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { BoxModel, BoxModelValues, ElementColorInfo, InspectedElement, ScannedElement } from '../../types';
 import { screenScanner } from './ScreenScanner';
+import { sanitizeComponentStyle } from './styleUtils';
 
 type Listener = (element: InspectedElement | null) => void;
 
@@ -248,7 +249,7 @@ class UIElementInspectorClass {
   public parseViewData(viewData: any, touchX: number, touchY: number): InspectedElement {
     const { hierarchy = [], props = {}, frame = { left: touchX - 25, top: touchY - 25, width: 50, height: 50 }, selectedIndex = 0 } = viewData;
 
-    const flattenedStyle = StyleSheet.flatten(props.style) || {};
+    const flattenedStyle = sanitizeComponentStyle(props.style);
     let name = hierarchy[selectedIndex]?.name || hierarchy[hierarchy.length - 1]?.name || 'View';
 
     let textContent: string | undefined = undefined;
@@ -295,7 +296,7 @@ class UIElementInspectorClass {
       for (let i = hierarchy.length - 1; i >= 0; i--) {
         const item = hierarchy[i];
         const itemProps = item?.props || {};
-        const itemStyle = StyleSheet.flatten(itemProps.style) || {};
+        const itemStyle = sanitizeComponentStyle(itemProps.style);
         const parentColors = this.extractColors(itemStyle, itemProps);
 
         if (!hasBg) {
@@ -414,7 +415,7 @@ class UIElementInspectorClass {
 
       if (typeof node === 'object' && node.props) {
         const childProps = node.props;
-        const childStyle = StyleSheet.flatten(childProps.style) || {};
+        const childStyle = sanitizeComponentStyle(childProps.style);
         const childColors = this.extractColors(childStyle, childProps);
         const childName =
           node.type?.displayName ||
@@ -457,7 +458,7 @@ class UIElementInspectorClass {
     if (!item) return;
 
     const props = item.props || {};
-    const style = StyleSheet.flatten(props.style) || {};
+    const style = sanitizeComponentStyle(props.style);
 
     const currentElem = this.currentElement;
     const currentFrame = currentElem ? currentElem.frame : { left: 0, top: 0, width: 200, height: 50 };

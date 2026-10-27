@@ -21,6 +21,7 @@ import { colors } from '../theme';
 import { BoxModelViewer } from '../components/BoxModelViewer';
 import { ColorSwatch } from '../components/ColorSwatch';
 import { FiberAnchor } from '../components/FiberAnchor';
+import { isValidColor, safeFormatValue } from '../../core/ui/styleUtils';
 
 const normalizeHex = (colorStr: string): string => {
   if (!colorStr) return '';
@@ -491,7 +492,7 @@ export const ElementsTab: React.FC<ElementsTabProps> = ({
                 <View
                   style={[
                     styles.elemMiniColorDot,
-                    { backgroundColor: c.value === 'transparent' ? 'transparent' : c.value },
+                    { backgroundColor: isValidColor(c.value) ? (c.value === 'transparent' ? 'transparent' : c.value) : 'transparent' },
                   ]}
                 />
                 <Text style={styles.elemMiniColorCode}>{c.value}</Text>
@@ -681,7 +682,7 @@ export const ElementsTab: React.FC<ElementsTabProps> = ({
                               <View key={k} style={styles.childStyleRow}>
                                 <Text style={styles.childStyleKey}>{k}:</Text>
                                 <Text style={styles.childStyleVal} selectable>
-                                  {typeof v === 'object' ? JSON.stringify(v) : String(v)}
+                                  {safeFormatValue(v)}
                                 </Text>
                               </View>
                             ))}
@@ -761,20 +762,15 @@ export const ElementsTab: React.FC<ElementsTabProps> = ({
                 <View style={styles.styleTable}>
                   {styleEntries.length > 0 ? (
                     styleEntries.map(([key, value]) => {
-                      let formattedValue = '';
-                      if (typeof value === 'object' && value !== null) {
-                        formattedValue = JSON.stringify(value);
-                      } else {
-                        formattedValue = String(value);
-                      }
-
+                      const formattedValue = safeFormatValue(value);
                       const isColorKey = key.toLowerCase().includes('color');
+                      const showColorDot = isColorKey && isValidColor(formattedValue);
 
                       return (
                         <View key={key} style={styles.styleRow}>
                           <Text style={styles.styleKey} selectable>{key}:</Text>
                           <View style={styles.styleValWrapper}>
-                            {isColorKey && (
+                            {showColorDot && (
                               <View style={[styles.inlineColorDot, { backgroundColor: formattedValue }]} />
                             )}
                             <Text style={styles.styleValue} selectable>
